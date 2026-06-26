@@ -39,7 +39,7 @@ jobs:
       - name: Build wheel
         run: |
           cd repo
-          python3 -m pip install -U pip setuptools wheel cython meson ninja
+          #python3 -m pip install -U pip setuptools wheel cython meson ninja
           mkdir -p wheelhouse
           pip wheel pandas==2.3.3 -w wheelhouse
 
