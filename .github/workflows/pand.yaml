@@ -1,4 +1,4 @@
-name: Build and Commit pandas wheel
+name: Build pandas wheel
 
 on:
   workflow_dispatch:
@@ -14,34 +14,47 @@ jobs:
       image: alpine:3.14.3
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Install build deps
+      - name: Install dependencies
         run: |
+          apk update
           apk add --no-cache \
+            git \
             python3 \
             py3-pip \
             python3-dev \
             build-base \
+            linux-headers \
             openblas-dev \
-            gfortran \
-            linux-headers
+            gfortran
 
-      - name: Upgrade pip tools
+      - name: Clone repository
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 -m pip install -U pip wheel setuptools
+          git clone https://x-access-token:${TOKEN}@github.com/${{ github.repository }} repo
+          cd repo
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Build pandas wheel
+      - name: Build wheel
         run: |
+          cd repo
+          python3 -m pip install -U pip setuptools wheel cython meson ninja
           mkdir -p wheelhouse
           pip wheel pandas==2.3.3 -w wheelhouse
 
-      - name: Commit wheel to repo
+      - name: Commit and Push
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          cd repo
 
           git add wheelhouse
-          git commit -m "Add pandas 2.3.3 wheel" || echo "No changes"
-          git push
+
+          if git diff --cached --quiet; then
+            echo "No changes."
+            exit 0
+          fi
+
+          git commit -m "Add pandas 2.3.3 wheel"
+          git push origin HEAD
