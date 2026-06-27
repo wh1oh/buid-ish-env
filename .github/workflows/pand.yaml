@@ -26,6 +26,10 @@ jobs:
             linux-headers \
             openblas-dev \
             gfortran \
+            musl-dev \
+            pkgconf \
+            openblas-dev \
+            lapack-dev \
             cmake \
             ninja \
             patchelf
