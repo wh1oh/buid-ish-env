@@ -32,6 +32,8 @@ jobs:
             lapack-dev \
             cmake \
             ninja \
+            py3-wheel \
+            meson \
             patchelf
 
       - name: Clone repository
@@ -49,9 +51,7 @@ jobs:
 
           python3 -m pip install --upgrade \
             pip \
-            wheel \
             build \
-            meson \
             meson-python \
             pyproject-metadata
 
