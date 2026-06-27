@@ -46,17 +46,24 @@ jobs:
       - name: Build wheel
         run: |
           cd repo
-          #python3 -m pip install -U pip setuptools wheel cython meson ninja
-          python3 -m pip install -U \
-              pip \
-              setuptools \
-              wheel \
-              meson \
-              meson-python \
-              packaging \
-              pyproject-metadata
+
+          python3 -m pip install --upgrade \
+            pip \
+            setuptools \
+            wheel \
+            build \
+            meson \
+            meson-python \
+            packaging \
+            pyproject-metadata
+
           mkdir -p wheelhouse
-          pip wheel pandas==2.3.3 -w wheelhouse
+
+          python3 -m pip wheel \
+            --no-cache-dir \
+            --no-build-isolation \
+            --wheel-dir wheelhouse \
+            pandas==2.3.3
 
       - name: Commit and Push
         env:
