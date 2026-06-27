@@ -53,6 +53,7 @@ jobs:
             "build<1.0" \
             "meson-python<0.15" \
             versioneer \
+            Cython \
             "pyproject-metadata<0.8"
 
           mkdir -p wheelhouse
