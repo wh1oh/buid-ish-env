@@ -52,6 +52,7 @@ jobs:
           python3 -m pip install \
             "build<1.0" \
             "meson-python<0.15" \
+            versioneer \
             "pyproject-metadata<0.8"
 
           mkdir -p wheelhouse
