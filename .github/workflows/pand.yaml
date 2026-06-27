@@ -25,7 +25,10 @@ jobs:
             build-base \
             linux-headers \
             openblas-dev \
-            gfortran
+            gfortran \
+            cmake \
+            ninja \
+            patchelf
 
       - name: Clone repository
         env:
