@@ -49,12 +49,10 @@ jobs:
 
           python3 -m pip install --upgrade \
             pip \
-            setuptools \
             wheel \
             build \
             meson \
             meson-python \
-            packaging \
             pyproject-metadata
 
           mkdir -p wheelhouse
